@@ -1,14 +1,26 @@
-<!-- quotes.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Request a Quote | Pcproton</title>
+  <title>Quotes | Pcproton</title>
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("menu").classList.toggle("hidden");
+    }
+
+    function updateSliderLabel(value) {
+      const label = document.getElementById("preferenceLabel");
+      if (value < 33) label.innerText = "Prioritise Performance";
+      else if (value < 66) label.innerText = "Balanced";
+      else label.innerText = "Prioritise Aesthetics";
+    }
+  </script>
 </head>
 
-<body class="bg-neutral-950 text-white flex flex-col min-h-screen font-sans">
+<body class="bg-black text-white font-sans min-h-screen">
 
   <!-- Navbar -->
   <header class="flex justify-between items-center px-8 py-6">
@@ -18,76 +30,109 @@
       <a href="index.html" class="hover:text-indigo-400">Home</a>
       <a href="about.html" class="hover:text-indigo-400">About</a>
       <a href="builds.html" class="hover:text-indigo-400">Builds</a>
+      <a href="quotes.html" class="text-indigo-500 font-semibold">Quotes</a>
       <a href="contact.html" class="hover:text-indigo-400">Contact</a>
-      <a href="quotes.html" class="text-indigo-500 font-semibold">Get a Quote</a>
     </nav>
 
-    <button class="md:hidden p-2 border rounded border-white/30">☰</button>
+    <button onclick="toggleMenu()" class="md:hidden p-2 border rounded border-white/30">☰</button>
   </header>
 
-  <!-- Quote Form -->
-  <main class="flex-1 flex flex-col items-center px-6 py-12">
-    <h2 class="text-4xl md:text-5xl font-extrabold mb-6 text-center">Request a PC Build Quote</h2>
-    <p class="text-gray-400 mb-10 max-w-xl text-center">
-      Tell us your budget and what the PC is for.<br>
-      We'll reply with a personalised build quote.
-    </p>
+  <!-- Mobile Menu -->
+  <nav id="menu" class="hidden md:hidden flex flex-col gap-4 bg-neutral-900 px-8 py-6 text-lg">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="builds.html">Builds</a>
+    <a href="quotes.html" class="text-indigo-500">Quotes</a>
+    <a href="contact.html">Contact</a>
+  </nav>
 
-    <form action="https://api.web3forms.com/submit" method="POST"
-      class="w-full max-w-xl bg-neutral-900 p-8 rounded-lg border border-neutral-800 shadow-lg space-y-6">
-      
+  <!-- Content -->
+  <main class="px-6 max-w-lg mx-auto mt-10">
+
+    <h2 class="text-3xl font-bold mb-6">Request a PC Quote</h2>
+
+    <form action="https://api.web3forms.com/submit" method="POST" class="space-y-6 bg-neutral-900 p-6 rounded-lg border border-white/10">
+
       <!-- Web3Forms Access Key -->
-      <input type="hidden" name="access_key" value="95ced235-0723-45d8-925d-2c39bae3a2a2">
+      <input type="hidden" name="access_key" value="YOUR-WEB3FORMS-KEY-HERE">
 
-      <!-- Destination Email -->
-      <input type="hidden" name="email" value="pcpquotes@proton.me">
+      <!-- Email -->
+      <input type="hidden" name="from_email" value="pcpquotes@proton.me">
 
+      <!-- FPS Target -->
       <div>
-        <label class="block mb-1 text-gray-300">Your Name</label>
-        <input type="text" name="Name" required
-          class="w-full p-3 rounded bg-neutral-800 text-white border border-neutral-700 focus:outline-none" />
+        <label class="block mb-2">Target FPS:</label>
+        <input type="number" name="fps" required placeholder="e.g., 144" class="w-full p-3 rounded bg-black border border-white/20">
       </div>
 
+      <!-- Games -->
       <div>
-        <label class="block mb-1 text-gray-300">Your Email</label>
-        <input type="email" name="Email" required
-          class="w-full p-3 rounded bg-neutral-800 text-white border border-neutral-700 focus:outline-none" />
+        <label class="block mb-2">Games You Play:</label>
+        <textarea name="games" required placeholder="E.g., Fortnite, GTA 5, Valorant..." class="w-full p-3 rounded bg-black border border-white/20 h-24"></textarea>
       </div>
 
+      <!-- Resolution -->
       <div>
-        <label class="block mb-1 text-gray-300">Budget (£)</label>
-        <input type="number" name="Budget" required
-          class="w-full p-3 rounded bg-neutral-800 text-white border border-neutral-700 focus:outline-none" />
-      </div>
-
-      <div>
-        <label class="block mb-1 text-gray-300">Purpose of the PC</label>
-        <select name="Purpose"
-          class="w-full p-3 rounded bg-neutral-800 text-white border border-neutral-700 focus:outline-none">
-          <option>Gaming</option>
-          <option>School / Productivity</option>
-          <option>Video Editing</option>
-          <option>Streaming</option>
-          <option>General Use</option>
+        <label class="block mb-2">Resolution:</label>
+        <select name="resolution" class="w-full p-3 rounded bg-black border border-white/20">
+          <option>1080p</option>
+          <option>1440p</option>
+          <option>4K</option>
         </select>
       </div>
 
+      <!-- Graphics Settings -->
       <div>
-        <label class="block mb-1 text-gray-300">Additional Details</label>
-        <textarea name="Details" rows="4"
-          class="w-full p-3 rounded bg-neutral-800 text-white border border-neutral-700 focus:outline-none"></textarea>
+        <label class="block mb-2">Graphics Preference:</label>
+        <select name="graphics" class="w-full p-3 rounded bg-black border border-white/20">
+          <option>Low</option>
+          <option>Medium</option>
+          <option>High</option>
+          <option>Ultra</option>
+        </select>
       </div>
 
-      <button type="submit"
-        class="w-full bg-indigo-600 hover:bg-indigo-700 transition rounded-lg py-3 text-sm font-semibold">
+      <!-- Aesthetic vs Performance Slider -->
+      <div>
+        <label class="block mb-2">Aesthetics vs Performance:</label>
+
+        <input  
+          type="range" 
+          name="preference"
+          min="0" 
+          max="100" 
+          value="50"
+          oninput="updateSliderLabel(this.value)"
+          class="w-full"
+        >
+
+        <p id="preferenceLabel" class="text-gray-400 mt-1">
+          Balanced
+        </p>
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label class="block mb-2">Your Email:</label>
+        <input type="email" name="email" required placeholder="you@example.com" class="w-full p-3 rounded bg-black border border-white/20">
+      </div>
+
+      <!-- Message -->
+      <div>
+        <label class="block mb-2">Extra Notes (optional):</label>
+        <textarea name="notes" placeholder="Tell us anything else..." class="w-full p-3 rounded bg-black border border-white/20 h-20"></textarea>
+      </div>
+
+      <button class="w-full bg-indigo-600 hover:bg-indigo-700 p-3 rounded-lg font-semibold">
         Submit Quote Request
       </button>
+
     </form>
+
   </main>
 
-  <!-- Footer -->
-  <footer class="text-center text-gray-500 text-sm py-6 border-t border-gray-800 mt-10">
-    © 2025 Pcproton — Budget builds made properly.
+  <footer class="text-center text-gray-500 py-6 mt-12">
+    © 2025 Pcproton.
   </footer>
 
 </body>
